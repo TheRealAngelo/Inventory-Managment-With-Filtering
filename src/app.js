@@ -9,11 +9,11 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/tags', tagRoutes);
 
-// minimal error handler
+// centralized error handler returns JSON with code and message
 app.use((err, req, res, next) => {
-  console.error(err);
-  const status = err.status || 500;
-  res.status(status).json({ error: err.message || 'Internal Server Error' });
+  const status = err.status || err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+  res.status(status).json({ success: false, error: message, code: status });
 });
 
 module.exports = app;
