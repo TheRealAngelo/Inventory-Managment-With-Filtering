@@ -22,5 +22,14 @@ module.exports = {
       }
       next(err);
     }
+  },
+
+  listTags: async (req, res, next) => {
+    try {
+      const tags = await db('tags').select('*').orderBy('id', 'asc');
+      return res.status(200).json({ success: true, tags });
+    } catch (err) {
+      next(err);
+    }
   }
 };
